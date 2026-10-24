@@ -25,8 +25,21 @@ const categories = [
 ]
 
 function AddDestinationPage() {
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    
+    const formData = new FormData(event.currentTarget)
+    const destinationData = Object.fromEntries(formData.entries())
+    
+    const res = await fetch('http://localhost:8000/add-destination', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(destinationData)
+    });
+    const result = await res.json();
+    console.log(result);
   }
 
   function handleCancel(event: React.MouseEvent<HTMLButtonElement>) {
@@ -141,7 +154,7 @@ function AddDestinationPage() {
               </Label>
               <Input
                 id="image-url"
-                name="imageUrl"
+                name="image"
                 type="url"
                 placeholder="https://example.com/image.jpg"
                 className="border-transparent bg-muted"
