@@ -137,7 +137,7 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
             playfair.className
           )}
         >
-          Wanderlast
+          Wanderlust
         </Link>
 
         {/* Right: profile + auth links */}
