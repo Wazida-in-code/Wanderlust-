@@ -3,12 +3,14 @@
 import * as React from "react"
 import { Menu, User } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Playfair_Display } from "next/font/google"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -21,10 +23,23 @@ const playfair = Playfair_Display({
   weight: ["700"],
 })
 
-const navItems = ["Home", "Destinations", "My Bookings", "Admin"]
-const authItems = ["Login", "Sign Up"]
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Destinations", href: "/destinations" },
+  { label: "My Bookings", href: "/my-bookings" },
+  { label: "Admin", href: "/add-destination" },
+]
+const authItems = [
+  { label: "Login", href: "/login" },
+  { label: "Sign Up", href: "/signup" },
+]
 
 function Navbar({ className, ...props }: React.ComponentProps<"header">) {
+  const pathname = usePathname()
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href)
+
   return (
     <header
       data-slot="navbar"
@@ -35,20 +50,22 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
       {...props}
     >
       <div className="relative mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 sm:px-6">
-        {/* Left: nav items (text only for now — no routes yet) */}
+        {/* Left: primary nav links */}
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
-            <span
-              key={item}
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "cursor-default text-sm",
-                item === "Home"
+                "text-sm",
+                isActive(item.href)
                   ? "border-b-2 border-brand pb-0.5 font-medium text-brand"
                   : "text-foreground hover:text-foreground/70"
               )}
             >
-              {item}
-            </span>
+              {item.label}
+            </Link>
           ))}
         </nav>
 
@@ -75,27 +92,38 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
             </DialogDescription>
             <nav className="flex flex-col gap-1">
               {navItems.map((item) => (
-                <span
-                  key={item}
-                  className={cn(
-                    "cursor-default rounded-md px-3 py-2 text-sm",
-                    item === "Home"
-                      ? "bg-brand/10 font-medium text-brand"
-                      : "text-foreground hover:bg-muted"
-                  )}
+                <DialogClose
+                  key={item.href}
+                  render={
+                    <Link
+                      href={item.href}
+                      aria-current={isActive(item.href) ? "page" : undefined}
+                      className={cn(
+                        "rounded-md px-3 py-2 text-sm",
+                        isActive(item.href)
+                          ? "bg-brand/10 font-medium text-brand"
+                          : "text-foreground hover:bg-muted"
+                      )}
+                    />
+                  }
                 >
-                  {item}
-                </span>
+                  {item.label}
+                </DialogClose>
               ))}
             </nav>
             <div className="flex flex-col gap-1 border-t pt-2">
               {authItems.map((item) => (
-                <span
-                  key={item}
-                  className="cursor-default rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
+                <DialogClose
+                  key={item.href}
+                  render={
+                    <Link
+                      href={item.href}
+                      className="rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
+                    />
+                  }
                 >
-                  {item}
-                </span>
+                  {item.label}
+                </DialogClose>
               ))}
             </div>
           </DialogContent>
@@ -112,19 +140,23 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
           Wanderlast
         </Link>
 
-        {/* Right: profile + auth (text only for now) */}
+        {/* Right: profile + auth links */}
         <div className="hidden items-center gap-6 md:flex">
-          <span className="flex cursor-default items-center gap-1.5 text-sm text-foreground hover:text-foreground/70">
+          <Link
+            href="/profile"
+            className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70"
+          >
             <User className="size-4" />
             Profile
-          </span>
+          </Link>
           {authItems.map((item) => (
-            <span
-              key={item}
-              className="cursor-default text-sm text-foreground hover:text-foreground/70"
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm text-foreground hover:text-foreground/70"
             >
-              {item}
-            </span>
+              {item.label}
+            </Link>
           ))}
         </div>
       </div>
