@@ -74,22 +74,22 @@ function Footer({ className, ...props }: React.ComponentProps<"footer">) {
     >
       <div className="mx-auto w-full max-w-screen-xl px-6">
         {/* Wordmark + tagline */}
-        <div className="pt-24">
+        <div className="pt-14">
           <p
             className={cn(
-              "text-6xl leading-none font-bold tracking-tight sm:text-7xl lg:text-8xl",
+              "text-6xl leading-none font-bold tracking-tight sm:text-7xl lg:text-6xl",
               playfair.className
             )}
           >
             Wanderlast
           </p>
-          <p className="mt-5 text-sm text-white/70 sm:text-base">
+          <p className="mt-4 text-sm text-white/70 sm:text-base">
             Your gateway to extraordinary travel experiences around the world.
           </p>
         </div>
 
         {/* Link columns */}
-        <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
+        <div className="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Newsletter */}
           <div>
             <h2 className="text-sm font-normal uppercase tracking-wider">
@@ -119,7 +119,7 @@ function Footer({ className, ...props }: React.ComponentProps<"footer">) {
             <h2 className="text-sm font-normal uppercase tracking-wider">
               Quick Links
             </h2>
-            <ul className="mt-5 space-y-5">
+            <ul className="mt-5 space-y-4">
               {quickLinks.map((link) => (
                 <li key={link}>
                   <span className="cursor-default text-sm text-white/80 hover:text-white">
@@ -135,7 +135,7 @@ function Footer({ className, ...props }: React.ComponentProps<"footer">) {
             <h2 className="text-sm font-normal uppercase tracking-wider">
               Support
             </h2>
-            <ul className="mt-5 space-y-5">
+            <ul className="mt-5 space-y-4">
               {supportLinks.map((link) => (
                 <li key={link}>
                   <span className="cursor-default text-sm text-white/80 hover:text-white">
@@ -151,7 +151,7 @@ function Footer({ className, ...props }: React.ComponentProps<"footer">) {
             <h2 className="text-sm font-normal uppercase tracking-wider">
               Contact Us
             </h2>
-            <ul className="mt-5 space-y-5">
+            <ul className="mt-5 space-y-4">
               {contactDetails.map((detail) => (
                 <li key={detail} className="text-sm text-white/80">
                   {detail}
@@ -162,7 +162,7 @@ function Footer({ className, ...props }: React.ComponentProps<"footer">) {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-20 flex flex-col items-center justify-between gap-5 border-t border-white/10 pt-6 pb-10 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-5 border-t border-white/10 pt-6 pb-6 sm:flex-row">
           <p className="text-xs text-white/50">
             © 2026 Wanderlust. All rights reserved.
           </p>
