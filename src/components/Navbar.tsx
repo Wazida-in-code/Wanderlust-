@@ -26,8 +26,8 @@ const playfair = Playfair_Display({
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Destinations", href: "/destinations" },
-  { label: "My Bookings", href: "/my-bookings" },
-  { label: "Admin", href: "/add-destination" },
+  {label: "Add Detinations", href: "add-destination"},
+  { label: "My Bookings", href: "/my-bookings" }
 ]
 const authItems = [
   { label: "Login", href: "/login" },
