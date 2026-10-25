@@ -1,3 +1,4 @@
+import EditDestinationPage from "@/components/EditDestinationPage";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -38,13 +39,9 @@ const DestinationDetailsPage = async ({
         </Link>
 
         <div className="flex gap-3">
-          <Link
-            href={"#"}
-            className="rounded border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
-          >
-            ✎ Edit
-          </Link>
-
+            <span>
+              <EditDestinationPage destination={destination} />
+            </span>  
           <button
             type="button"
             className="rounded border border-red-300 px-4 py-2 text-sm text-red-500 hover:bg-red-50"
