@@ -31,7 +31,7 @@ const navItems = [
 ]
 const authItems = [
   { label: "Login", href: "/login" },
-  { label: "Sign Up", href: "/signup" },
+  { label: "Sign Up", href: "/sign-up" },
 ]
 
 function Navbar({ className, ...props }: React.ComponentProps<"header">) {
