@@ -1,4 +1,6 @@
+import DeleteDestinationPage from "@/components/DeleteDestinationPage";
 import EditDestinationPage from "@/components/EditDestinationPage";
+import { Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -38,16 +40,13 @@ const DestinationDetailsPage = async ({
           ← Back to Destinations
         </Link>
 
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
             <span>
               <EditDestinationPage destination={destination} />
             </span>  
-          <button
-            type="button"
-            className="rounded border border-red-300 px-4 py-2 text-sm text-red-500 hover:bg-red-50"
-          >
-            Cancel
-          </button>
+          <span>
+            <DeleteDestinationPage destination={destination} />
+          </span>
         </div>
       </div>
 
