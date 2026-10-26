@@ -30,7 +30,7 @@ const navItems = [
   { label: "My Bookings", href: "/my-bookings" }
 ]
 const authItems = [
-  { label: "Login", href: "/login" },
+  { label: "Login", href: "/sign-in" },
   { label: "Sign Up", href: "/sign-up" },
 ]
 
