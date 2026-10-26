@@ -1,3 +1,4 @@
+'use client'
 import { Card } from "./ui/card";
 import Image from "next/image";
 import {
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { useRouter } from "next/navigation";
 
 interface BookingType {
   _id: string;
@@ -26,6 +28,14 @@ interface BookingType {
 }
 
 const MyBookingCard = ({ booking }: { booking: BookingType }) => {
+    const router = useRouter()
+    const handelCancel = async() => {
+        const res = await fetch(`http://localhost:8000/my-bookings/${booking._id}`, {
+            method: "DELETE"
+        })
+        const data = await res.json()
+        router.refresh()
+    }
   return (
         <Card
             key={booking._id}
@@ -74,7 +84,7 @@ const MyBookingCard = ({ booking }: { booking: BookingType }) => {
 
             {/* Action Buttons */}
             <div className="flex shrink-0 items-center gap-2 sm:self-end">
-              <Button
+              <Button onClick={handelCancel}
                 variant="outline"
                 className="h-8 rounded-none border-red-400 px-3 text-xs font-normal text-red-500 hover:bg-red-50 hover:text-red-600"
               >
