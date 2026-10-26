@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Menu, User } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Playfair_Display } from "next/font/google"
+import * as React from "react";
+import { Menu, User } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Playfair_Display } from "next/font/google";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -16,36 +16,53 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { signOut, useSession } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "./ui/popover";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["700"],
-})
+});
 
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Destinations", href: "/destinations" },
-  {label: "Add Detinations", href: "/add-destination"},
-  { label: "My Bookings", href: "/my-bookings" }
-]
+  { label: "Add Detinations", href: "/add-destination" },
+  { label: "My Bookings", href: "/my-bookings" },
+];
 const authItems = [
   { label: "Login", href: "/sign-in" },
   { label: "Sign Up", href: "/sign-up" },
-]
+];
 
 function Navbar({ className, ...props }: React.ComponentProps<"header">) {
-  const pathname = usePathname()
+  const { data: session } = useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
+  const pathname = usePathname();
 
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href)
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <header
       data-slot="navbar"
       className={cn(
         "sticky top-0 z-50 border-b bg-background shadow-xs",
-        className
+        className,
       )}
       {...props}
     >
@@ -61,7 +78,7 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
                 "text-sm",
                 isActive(item.href)
                   ? "border-b-2 border-brand pb-0.5 font-medium text-brand"
-                  : "text-foreground hover:text-foreground/70"
+                  : "text-foreground hover:text-foreground/70",
               )}
             >
               {item.label}
@@ -102,7 +119,7 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
                         "rounded-md px-3 py-2 text-sm",
                         isActive(item.href)
                           ? "bg-brand/10 font-medium text-brand"
-                          : "text-foreground hover:bg-muted"
+                          : "text-foreground hover:bg-muted",
                       )}
                     />
                   }
@@ -134,7 +151,7 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
           href="/"
           className={cn(
             "absolute left-1/2 -translate-x-1/2 text-2xl font-bold tracking-tight text-brand",
-            playfair.className
+            playfair.className,
           )}
         >
           Wanderlust
@@ -142,26 +159,56 @@ function Navbar({ className, ...props }: React.ComponentProps<"header">) {
 
         {/* Right: profile + auth links */}
         <div className="hidden items-center gap-6 md:flex">
-          <Link
-            href="/profile"
-            className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70"
-          >
-            <User className="size-4" />
-            Profile
-          </Link>
-          {authItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-foreground hover:text-foreground/70"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {user ? (
+            <>
+              <Link
+                href="/profile"
+                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70"
+              >
+                <User className="size-4" />
+                Profile
+              </Link>
+
+              <Popover>
+                <PopoverTrigger
+                  render={
+                    <button type="button" className="rounded-full">
+                      <Avatar>
+                        <AvatarImage
+                          referrerPolicy="no-referrer"
+                          src={user?.image as string}
+                        />
+                        <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    </button>
+                  }
+                />
+                <PopoverContent align="start">
+                  <PopoverHeader>
+                    <PopoverTitle>{user?.name}</PopoverTitle>
+                    <PopoverDescription>{user?.email}</PopoverDescription>
+                  </PopoverHeader>
+                  <Button onClick={handleSignOut}>Sign Out</Button>
+                </PopoverContent>
+              </Popover>
+            </>
+          ) : (
+            <>
+              {authItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm text-foreground hover:text-foreground/70"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </header>
-  )
+  );
 }
 
-export { Navbar }
+export { Navbar };
