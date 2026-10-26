@@ -1,3 +1,4 @@
+import BookingCard from "@/components/booking/BookingCard";
 import DeleteDestinationPage from "@/components/DeleteDestinationPage";
 import EditDestinationPage from "@/components/EditDestinationPage";
 import { Trash } from "lucide-react";
@@ -132,18 +133,9 @@ const DestinationDetailsPage = async ({
 
           <p className="mb-6 text-xs text-gray-500">per person</p>
 
-          <div className="mb-5 rounded border border-gray-200 bg-gray-50 px-3 py-3 text-sm text-gray-700">
-            <span className="text-gray-500">Departure date: </span>
-            {destination.departureDate}
-          </div>
-
-          <button
-            type="button"
-            className="w-full bg-cyan-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-cyan-700"
-          >
-            Book Now →
-          </button>
-
+          
+          <BookingCard destination={destination} />
+         
           <div className="mt-4 space-y-2 text-xs text-gray-500">
             <p>✓ Explore beautiful destinations</p>
             <p>✓ Plan your next adventure</p>
