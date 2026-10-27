@@ -26,7 +26,11 @@ const DestinationDetailsPage = async ({
 }) => {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:8000/destination/${id}`);
+  const res = await fetch(`http://localhost:8000/destination/${id}`, {
+    headers:{
+      authorization: 'user logged in!'
+    }
+  });
   if (!res.ok) notFound()
   const destination: DestinationDetailsPageType = await res.json();
 
