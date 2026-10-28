@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { authClient } from "@/lib/auth-client"
 
 const categories = [
   "Beach",
@@ -30,11 +31,15 @@ function AddDestinationPage() {
     
     const formData = new FormData(event.currentTarget)
     const destinationData = Object.fromEntries(formData.entries())
+
+    const {data, error} = await authClient.token()
+    const token = data?.token
     
     const res = await fetch('http://localhost:8000/add-destination', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
       },
       body: JSON.stringify(destinationData)
     });
