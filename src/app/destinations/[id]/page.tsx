@@ -1,9 +1,7 @@
 import BookingCard from "@/components/booking/BookingCard";
 import DeleteDestinationPage from "@/components/DeleteDestinationPage";
 import EditDestinationPage from "@/components/EditDestinationPage";
-import { auth } from "@/lib/auth";
-import { Trash } from "lucide-react";
-import { headers } from "next/headers";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -28,12 +26,8 @@ const DestinationDetailsPage = async ({
 }) => {
   const { id } = await params;
 
-  const jwtToken = await auth.api.getToken({
-    headers: await headers()
-  })
+  const token = await getTokenFromServer()
 
-  const token = jwtToken?.token
-  
   const res = await fetch(`http://localhost:8000/destination/${id}`, {
     headers:{
       authorization: `Bearer ${token}`

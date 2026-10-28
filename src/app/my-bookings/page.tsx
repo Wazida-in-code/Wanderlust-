@@ -1,5 +1,6 @@
 import MyBookingCard from '@/components/MyBookingCard';
 import { auth } from '@/lib/auth';
+import { getTokenFromServer } from '@/lib/getTokenFromServer';
 import { headers } from 'next/headers';
 
 interface BookingsType {
@@ -19,11 +20,14 @@ interface BookingsType {
 
 
 const MyBookingsPage = async() => {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    })
+    const session = await auth.api.getSession({headers: await headers()})
     const user = session?.user
-    const res = await fetch(`http://localhost:8000/my-bookings/${user?.email}`)
+    const token = await getTokenFromServer()
+    const res = await fetch(`http://localhost:8000/my-bookings/${user?.email}`, {
+      headers:{
+        authorization: `Bearer ${token}`
+      }
+    })
     const bookings:BookingsType[] = await res.json()
     
     return (

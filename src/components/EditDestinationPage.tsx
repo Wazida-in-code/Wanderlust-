@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useRouter } from "next/navigation";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 const categories = [
   "Beach",
   "Mountain",
@@ -51,11 +52,14 @@ const EditDestinationPage = ({destination}:{destination:DestinationType}) => {
         
         const formData = new FormData(event.currentTarget)
         const destinationData = Object.fromEntries(formData.entries())
+
+        const token = await getTokenFromClient()
         
         const res = await fetch(`http://localhost:8000/destination/${destination._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`
           },
           body: JSON.stringify(destinationData)
         });

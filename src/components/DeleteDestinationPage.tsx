@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import { AlertTriangle, Trash, X } from "lucide-react";
 import { redirect } from "next/navigation";
 
@@ -28,8 +29,12 @@ interface DestinationDetailsPageType {
 
 const DeleteDestinationPage = ({destination}:{destination:DestinationDetailsPageType}) => {
     const handleDelete = async() => {
+      const token = await getTokenFromClient()
         const res = await fetch(`http://localhost:8000/destination/${destination._id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+              authorization: `Bearer ${token}`
+            }
         })
         const data = await res.json()
         redirect('/destinations')
